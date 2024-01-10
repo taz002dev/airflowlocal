@@ -6,3 +6,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 Pipfile
+dags/__pycache__/docker_test.cpython-38.pyc
