@@ -21,13 +21,7 @@ def docker_dag():
         docker_url="unix://var/run/docker.sock",
         network_mode='bridge'
         )
-    # t2 = DockerOperator(
-    #        task_id='t2',
-    #        image = 'hello-world',
-    #        docker_url='unix://var/run/docker.sock',
-    #        network_mode='bridge', 
-    #        auto_remove=True       
-    #   )
+  
     # t2 = DockerOperator ( 
     #                     task_id='t2',
     #                     api_version='auto',
