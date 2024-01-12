@@ -1,15 +1,24 @@
 from airflow.decorators import task, dag
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
+from airflow.utils.email import send_email
 
 from datetime import datetime
 
-@dag (start_date=datetime(2021, 1, 1), schedule_interval='@daily', catchup=False)
+
+def email_function(context):
+    dag_run = context.get("dag_run")
+    msg = "DAG ran successfully"
+    subject = f"DAG {dag_run} has completed"
+    send_email(to="andreicanache@gmail.com", subject=subject, html_content=msg)
+
+
+@dag (start_date=datetime(2021, 1, 1), schedule_interval='@daily', catchup=False , on_failure_callback=email_function)
 def webscrape():
 
     @task()
     def t1():
-        pass
+        return '{message:"test"}'
 
     t2 = DockerOperator(            
         task_id='t2',
@@ -20,6 +29,7 @@ def webscrape():
         auto_remove=True,
         # docker_url='container:lucid_lederberg',
         docker_url="unix://var/run/docker.sock",
+        environment={"BQ_CREDS_FILE":"/app/bq_creds.json"},
         network_mode='bridge',
         mounts = [Mount(source = "/home/andrei/.bq/inlaid-keyword-311405-033a1e9fcf98.json",
                        target = "/app/bq_creds.json", 

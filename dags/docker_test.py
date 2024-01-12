@@ -12,16 +12,15 @@ def docker_dag():
 
     t2 = DockerOperator(            
         task_id='t2',
-        image = 'taz002dev/scrape:amd64',
+        image = 'hello-world',
         container_name='task_t2',
         api_version='auto',
         # command = 'echo "Yo no soi marinero"',
         auto_remove=True,
         # docker_url='container:lucid_lederberg',
         docker_url="unix://var/run/docker.sock",
-        network_mode='bridge',
-        mounts -[Mount]
-    )
+        network_mode='bridge'
+        )
     # t2 = DockerOperator(
     #        task_id='t2',
     #        image = 'hello-world',
